@@ -135,3 +135,4 @@ dist
 /wasm/pkg/
 /wasm/dist/
 /wasm/target/
+/wasm/build/
