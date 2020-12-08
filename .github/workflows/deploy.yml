@@ -38,6 +38,9 @@ jobs:
       - name: Compile and bundle application
         run: yarn build
 
+      - name: Show files
+        run: ls -la
+
       - name: Deploy to github pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v2
