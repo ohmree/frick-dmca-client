@@ -45,6 +45,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # For some reason this is necessary
-          publish_dir: ./build
+          publish_dir: ./wasm/build
           force_orphan: true
-          working_directory: ./wasm
