@@ -1,0 +1,47 @@
+name: Build and publish
+on:
+  push:
+    tags:
+      - v*
+jobs:
+  deploy-app:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: wasm
+    env:
+      CARGO_INCREMENTAL: 0
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          profile: release
+          override: true
+      - uses: actions/setup-node@v2-beta
+
+      - name: Get Tag
+        run: |
+          echo "::set-env name=PUBLISH_TAG::${GITHUB_REF#refs/tags/}"
+          echo "Publishing tag ${{ env.PUBLISH_TAG }}"
+
+      - name: Check Tools
+        run: |
+          rustc --version
+          cargo --version
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Compile and bundle application
+        run: yarn build
+
+      - name: Deploy to github pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
