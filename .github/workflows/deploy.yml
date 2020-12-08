@@ -18,9 +18,10 @@ jobs:
         with:
           toolchain: nightly
           override: true
-      - uses: actions/setup-node@v2-beta
+      - uses: bahmutov/npm-install@HEAD
+        with:
+          working-directory: ./wasm
       - uses: Swatinem/rust-cache@v1
-      - uses: egordm/gha-yarn-node-cache@v1
 
       # - name: Get Tag
       #   run: |
@@ -44,5 +45,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # For some reason this is necessary
-          publish_dir: ./wasm/build
+          publish_dir: ./build
           force_orphan: true
+          working_directory: ./wasm
