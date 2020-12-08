@@ -19,6 +19,8 @@ jobs:
           toolchain: nightly
           override: true
       - uses: actions/setup-node@v2-beta
+        with:
+          node_version: 14
 
       - name: Get Tag
         run: |
