@@ -28,10 +28,10 @@ export default {
         }),
         rust({
             inlineWasm: true,
-            cargoArgs: !production && ["--features", "debug"]
+            cargoArgs: production || ["--features", "debug"]
         }),
         styles(),
         production && terser(), // minify, but only in production
-        !production && serve("dist")
+        production || serve("dist")
     ]
 };

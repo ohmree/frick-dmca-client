@@ -6,7 +6,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c && inline-assets --htmlmin --purge dist/index.html dist/index.html",
+    "build": "rollup -c && mkdir -p build && inline-assets --htmlmin dist/index.html build/index.html",
     "watch": "rollup -c -w",
     "dev": "rollup -c -w",
     "clean": "cargo clean && rimraf dist",
