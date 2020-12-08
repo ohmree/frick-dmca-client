@@ -25,7 +25,7 @@ export default {
             meta: [
                 {
                     "http-equiv": "Content-Security-Policy",
-                    content: "default-src https://invidious.tube;media-src https://*.googlevideo.com;"
+                    content: "default-src 'self' https://invidious.tube; media-src https://*.googlevideo.com;"
                 }
             ]
         }),
