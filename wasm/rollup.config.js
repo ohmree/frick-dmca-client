@@ -17,7 +17,6 @@ export default {
         dir: "dist",
         format: "es",
         sourcemap: !production,
-        assetFileNames: "[name]-[hash][extname]",
     },
     watch: {
         include: ["src/**/*.rs", "Cargo.toml", "**/*.css"]
