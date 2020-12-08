@@ -22,7 +22,12 @@ export default {
     },
     plugins: [
         html({
-            meta: [{ "http-equiv": "Content-Security-Policy", content: "media-src *.googlevideo.com;" }]
+            meta: [
+                {
+                    "http-equiv": "Content-Security-Policy",
+                    content: "default-src https://invidious.tube;media-src https://*.googlevideo.com;"
+                }
+            ]
         }),
         rust({
             inlineWasm: true,
