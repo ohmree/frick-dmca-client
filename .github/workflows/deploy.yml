@@ -36,14 +36,11 @@ jobs:
       - name: Compile and bundle application
         run: yarn build
 
-      - name: Delet dis
-        run: pwd && ls -la
-
       - name: Deploy to github pages
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # For some reason this is necessary
-          publish_dir: build
+          publish_dir: ../wasm/build
           force_orphan: true
