@@ -1,8 +1,8 @@
 name: Build and publish
 on:
-  [push]
-    # tags:
-    #   - v*
+  push:
+    tags:
+      - v*
 jobs:
   deploy-app:
     name: Deploy app
