@@ -19,11 +19,13 @@ jobs:
           toolchain: nightly
           override: true
       - uses: actions/setup-node@v2-beta
+      - uses: Swatinem/rust-cache@v1
+      - uses: egordm/gha-yarn-node-cache@v1
 
-      - name: Get Tag
-        run: |
-          echo "PUBLISH_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          echo "Publishing tag ${{ env.PUBLISH_TAG }}"
+      # - name: Get Tag
+      #   run: |
+      #     echo "PUBLISH_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+      #     echo "Publishing tag ${{ env.PUBLISH_TAG }}"
 
       - name: Check Tools
         run: |
