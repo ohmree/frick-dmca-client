@@ -5,7 +5,8 @@
     "build": "rollup -c && mkdir -p build && inline-assets --htmlmin dist/index.html build/index.html",
     "watch": "rollup -c -w",
     "dev": "rollup -c -w",
-    "clean": "cargo clean && rimraf dist",
+    "clean": "cargo clean && rimraf dist build pkg",
+    "reset": "yarn clean node_modules",
     "check-rs": "cargo check --target=wasm32-unknown-unknown"
   },
   "dependencies": {},

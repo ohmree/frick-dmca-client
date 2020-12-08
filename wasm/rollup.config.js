@@ -10,13 +10,12 @@ const production = !process.env.ROLLUP_WATCH;
 
 export default {
     input: {
-        wasm: "Cargo.toml",
-        style: "styles/app.css"
+        wasm: "Cargo.toml"
     },
     output: {
         dir: "dist",
         format: "es",
-        sourcemap: !production,
+        // sourcemap: !production,
     },
     watch: {
         include: ["src/**/*.rs", "Cargo.toml", "**/*.css"]
@@ -27,10 +26,10 @@ export default {
         }),
         rust({
             inlineWasm: true,
-            cargoArgs: production || ["--features", "debug"]
+            cargoArgs: production && [] || ["--features", "debug"]
         }),
         styles(),
         production && terser(), // minify, but only in production
-        production || serve("dist")
+        !production && serve("dist")
     ]
 };
