@@ -1,10 +1,6 @@
 {
   "name": "FrickDMCA",
   "version": "0.0.0",
-  "private": true,
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "rollup -c && mkdir -p build && inline-assets --htmlmin dist/index.html build/index.html",
     "watch": "rollup -c -w",
