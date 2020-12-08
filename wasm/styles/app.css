@@ -1,0 +1,14 @@
+select {
+    width: 10%;
+    float: left;
+    height: 3em;
+}
+
+input {
+    width: 25%;
+    height: 3em;
+}
+
+button {
+    height: 3em;
+}
