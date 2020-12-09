@@ -1,19 +1,31 @@
 {
   "name": "FrickDMCA",
-  "version": "0.0.0",
+  "version": "0.1.7",
   "scripts": {
-    "build": "rollup -c && mkdir -p build && inline-assets --htmlmin dist/index.html build/index.html",
+    "build": "rollup -c",
+    "build:mkdirp": "mkdirp build",
+    "build:inline": "inline-assets --htmlmin dist/index.html build/index.html",
+    "build:single-page": "cross-env BUILD_SINGLE_PAGE=1 npm-run-all -s build build:mkdirp build:inline",
+
     "watch": "rollup -c -w",
     "dev": "rollup -c -w",
-    "clean": "cargo clean && rimraf dist build pkg",
-    "reset": "yarn clean node_modules",
-    "check-rs": "cargo check --target=wasm32-unknown-unknown"
+
+    "clean:cargo": "cargo clean",
+    "clean:node":  "rimraf dist build pkg",
+    "clean": "npm-run-all -p clean:cargo clean:node",
+    "clean:modules": "rimraf node_modules",
+    "clean:reset": "npm-run-all -p clean clean:modules",
+
+    "check:rs": "cargo check --target=wasm32-unknown-unknown"
   },
   "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-html": "^0.2.0",
     "@wasm-tool/rollup-plugin-rust": "^1.0.5",
+    "cross-env": "^7.0.3",
     "inline-assets": "^1.4.7",
+    "mkdirp": "^1.0.4",
+    "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "rollup": "^2.34.2",
     "rollup-plugin-serve": "^1.1.0",
