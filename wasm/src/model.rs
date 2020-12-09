@@ -48,7 +48,7 @@ impl Model {
         let input_ref = self.input_ref.clone();
         html! {
             <div>
-                <input ref=self.input_ref.clone() type="text"/>
+                <input ref=self.input_ref.clone() type="text" placeholder="Enter YouTube video ID"/>
                 <button onclick=self.link.batch_callback(move |_| {
                     input_ref.cast::<InputElement>().map(|input| Msg::GetSong(input.value()))})>
                     {"Load"}
