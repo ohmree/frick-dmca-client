@@ -6,7 +6,8 @@ use yew::format::{Nothing, Text};
 use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 
 // TODO: let users choose an instance to use
-const INVIDIOUS_INSTANCE: &str = "https://invidious.tube";
+// const INVIDIOUS_INSTANCE: &str = "https://invidious.tube";
+const INVIDIOUS_INSTANCE: &str = "https://invidious.kavin.rocks";
 
 pub type FetchResponse = Response<Text>;
 type FetchCallback = Callback<FetchResponse>;
