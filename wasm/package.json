@@ -11,7 +11,7 @@
     "dev": "rollup -c -w",
 
     "clean:cargo": "cargo clean",
-    "clean:node":  "rimraf dist build pkg",
+    "clean:node": "rimraf dist build pkg",
     "clean": "npm-run-all -p clean:cargo clean:node",
     "clean:modules": "rimraf node_modules",
     "clean:reset": "npm-run-all -p clean clean:modules",
