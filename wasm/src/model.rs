@@ -51,7 +51,7 @@ impl Model {
                 <input ref=self.input_ref.clone() type="text"/>
                 <button onclick=self.link.batch_callback(move |_| {
                     input_ref.cast::<InputElement>().map(|input| Msg::GetSong(input.value()))})>
-                    {"Play"}
+                    {"Load"}
                 </button>
             </div>
         }
@@ -67,17 +67,18 @@ impl Model {
                                 .cast::<SelectElement>().map(|select| Msg::UpdateSelectedUrl(select.value()))
                         })
                 >
-                {
-                    if let Some(song) = self.state.song.clone() {
-                        song
-                        .itags()
-                        .iter()
-                        .map(|(itag, url)| html! { <option value={url}>{itag}</option> })
-                        .collect::<Html>()
-                    } else {
-                        html! {}
+                <option hidden=true disabled=true selected=true value=""> {"Select quality"} </option>
+                    {
+                        if let Some(song) = self.state.song.clone() {
+                            song
+                            .itags()
+                            .iter()
+                            .map(|(itag, url)| html! { <option value={url}>{itag}</option> })
+                            .collect::<Html>()
+                        } else {
+                            html! {}
+                        }
                     }
-                }
                 </select>
             </div>
         }
@@ -85,10 +86,14 @@ impl Model {
 
     fn render_audio(&self) -> Html {
         let state = self.state.clone();
-        html! {
-            <div>
-                <audio src={state.selected_url.unwrap_or_default()} controls=true autoplay=true/>
-            </div>
+        if let Some(url) = state.selected_url {
+            html! {
+                <div>
+                    <audio src={url} controls=true autoplay=true/>
+                </div>
+            }
+        } else {
+            html! {}
         }
     }
 }
