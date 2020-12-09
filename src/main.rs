@@ -8,7 +8,7 @@ use simple_eyre::eyre::{ContextCompat, Result};
 use web_view::*;
 
 #[derive(RustEmbed)]
-#[folder = "wasm/dist"]
+#[folder = "$APP_HTML_DIR"]
 struct Asset;
 
 fn main() -> Result<()> {

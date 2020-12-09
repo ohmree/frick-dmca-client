@@ -1,13 +1,13 @@
 [package]
-name = "FrickDMCA"
+name = "frick-dmca"
 version = "0.1.7"
 authors = ["OhmRee <13455401+ohmree@users.noreply.github.com>"]
 edition = "2018"
 
 [dependencies]
 web-view = { git = "https://github.com/ohmree/web-view.git" }
-rust-embed = { version = "5.6.0", features = ["compression"] }
+rust-embed = { version = "5.6.0", features = ["compression", "interpolate-folder-path"] }
 simple-eyre = "0.3.0"
 
-# [build-dependencies]
-# wasm = { path = "./wasm" }
+[build-dependencies]
+color-eyre = "0.5.10"

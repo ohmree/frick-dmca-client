@@ -1,5 +1,5 @@
 {
-  "name": "FrickDMCA",
+  "name": "frick-dmca",
   "version": "0.1.7",
   "scripts": {
     "build": "rollup -c",

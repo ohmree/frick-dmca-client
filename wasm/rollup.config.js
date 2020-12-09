@@ -32,7 +32,7 @@ export default {
                     "http-equiv": "Content-Security-Policy",
                     // TODO: maybe find a more secure way to handle this? Perhaps generate a nonce/hash at compile/bundle time?
                     content: buildSinglePage
-                        && "default-src 'self' https://invidious.kavin.rocks; media-src https://*.googlevideo.com; script-src 'unsafe-inline'; style-src 'unsafe-inline';"
+                        && "default-src 'self' https://invidious.kavin.rocks; media-src https://*.googlevideo.com; script-src 'unsafe-inline' 'unsafe-eval'; style-src 'unsafe-inline';"
                         || "default-src 'self' https://invidious.kavin.rocks; media-src https://*.googlevideo.com; style-src 'unsafe-inline'"
                     // TODO: remove the unsafe style loading when we find a better solution
                 },
@@ -56,7 +56,6 @@ export default {
             cargoArgs: production && [] || ["--features", "debug"]
         }),
         styles({
-            mode: buildSinglePage && "inject" || "inject",
             include: ["styles/**/*.css"],
             minimize: production,
         }),
