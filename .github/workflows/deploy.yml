@@ -35,10 +35,6 @@ jobs:
           rustc --version
           cargo --version
 
-      - name: Build patched HTML plugin
-        run: |
-          yarn pnpm install --dir ./rollup-plugins/packages/html
-          yarn pnpm run build --dir ./rollup-plugins/packages/html
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
