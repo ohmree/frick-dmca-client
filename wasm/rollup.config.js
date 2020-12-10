@@ -1,6 +1,6 @@
 import { terser } from "rollup-plugin-terser";
 import rust from "@wasm-tool/rollup-plugin-rust";
-import html from "@rollup/plugin-html";
+import html from "./rollup-plugin-html";
 import serve from "rollup-plugin-serve"
 import styles from "rollup-plugin-styles";
 

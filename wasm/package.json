@@ -19,7 +19,6 @@
     "water.css": "^2.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-html": "./rollup-plugins/packages/html",
     "@wasm-tool/rollup-plugin-rust": "^1.0.5",
     "cross-env": "^7.0.3",
     "inline-assets": "^1.4.7",
