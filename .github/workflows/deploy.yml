@@ -36,7 +36,7 @@ jobs:
           cargo --version
 
       - name: Build patched HTML plugin
-        run: cd rollup-plugins/packages/html && yarn pnpm build
+        run: yarn pnpm run build --dir ./rollup-plugins/packages/html
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
