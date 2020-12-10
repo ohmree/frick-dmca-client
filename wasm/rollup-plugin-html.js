@@ -1,13 +1,5 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var path = require('path');
-var crypto = require('crypto');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var crypto__default = /*#__PURE__*/_interopDefaultLegacy(crypto);
+import { extname } from 'path';
+import crypto from 'crypto';
 
 const getFiles = (bundle) => {
     const files = Object.values(bundle).filter((file) => file.type === 'chunk' ||
@@ -15,7 +7,7 @@ const getFiles = (bundle) => {
     const result = {};
     for (const file of files) {
         const { fileName } = file;
-        const extension = path.extname(fileName).substring(1);
+        const extension = extname(fileName).substring(1);
         result[extension] = (result[extension] || []).concat(file);
     }
     return result;
@@ -24,14 +16,14 @@ const makeCspDirective = (files, hashAlgorithm, additionalCspDirectives) => {
     const jsHashes = (files.js || [])
         .filter((chunkOrAsset) => chunkOrAsset.type === 'chunk')
         .map((chunk) => {
-        const hash = crypto__default['default'].createHash(hashAlgorithm);
+        const hash = crypto.createHash(hashAlgorithm);
         hash.update(chunk.code);
         return hash.digest('base64');
     });
     const cssHashes = (files.css || [])
         .filter((chunkOrAsset) => chunkOrAsset.type === 'asset' && typeof chunkOrAsset.source === 'string')
         .map((asset) => {
-        const hash = crypto__default['default'].createHash(hashAlgorithm);
+        const hash = crypto.createHash(hashAlgorithm);
         hash.update(asset.source);
         return hash.digest('base64');
     });
@@ -99,7 +91,7 @@ const defaultTemplate = async ({ attributes, files, meta, publicPath, title, sho
 </html>`;
 };
 const supportedFormats = ['es', 'esm', 'iife', 'umd'];
-const supportedHashAlgorithms = crypto__default['default']
+const supportedHashAlgorithms = crypto
     .getHashes()
     .filter((algo) => ['sha256', 'sha384', 'sha512'].includes(algo));
 const defaults = {
@@ -154,6 +146,5 @@ function html(opts = {}) {
     };
 }
 
-exports.default = html;
-exports.makeHtmlAttributes = makeHtmlAttributes;
-module.exports = Object.assign(exports.default, exports);
+export default html;
+export { makeHtmlAttributes };
