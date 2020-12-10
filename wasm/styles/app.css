@@ -1,14 +1,24 @@
-select {
-    width: 10%;
-    float: left;
-    height: 3em;
+@import url("water.css/out/water.min");
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  grid-auto-rows: auto;
+  place-content: center;
+  place-items: center;
+  margin-top: 25vh;
 }
 
-input {
-    width: 25%;
-    height: 3em;
+.row {
+  display: flex;
+  flex-direction: row;
 }
 
-button {
-    height: 3em;
+h1 {
+  text-align: center;
 }
+
+/* .container { */
+/*     height: 75; */
+/* } */

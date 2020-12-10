@@ -5,9 +5,9 @@ authors = ["OhmRee <13455401+ohmree@users.noreply.github.com>"]
 edition = "2018"
 
 [dependencies]
-web-view = { git = "https://github.com/ohmree/web-view.git" }
 rust-embed = { version = "5.6.0", features = ["compression", "interpolate-folder-path"] }
-simple-eyre = "0.3.0"
+color-eyre = "0.5.10"
+web-view = { version = "0.7.2", features = ["edge"] }
 
 [build-dependencies]
 color-eyre = "0.5.10"

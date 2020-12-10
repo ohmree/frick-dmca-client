@@ -4,7 +4,7 @@
 )]
 
 use rust_embed::RustEmbed;
-use simple_eyre::eyre::{ContextCompat, Result};
+use color_eyre::eyre::{eyre, Result};
 use web_view::*;
 
 #[derive(RustEmbed)]
@@ -12,7 +12,7 @@ use web_view::*;
 struct Asset;
 
 fn main() -> Result<()> {
-    let index_content = Asset::get("index.html").wrap_err("index.html not found")?;
+    let index_content = Asset::get("index.html").ok_or_else(|| eyre!("index.html not found"))?;
 
     web_view::builder()
         .title("Minimal webview example")

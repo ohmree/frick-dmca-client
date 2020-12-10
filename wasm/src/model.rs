@@ -9,6 +9,7 @@ pub struct State {
     song: Option<Song>,
     get_song_error: Option<String>,
     selected_url: Option<String>,
+    is_song_loaded: bool,
 }
 
 pub struct Model {
@@ -29,31 +30,32 @@ pub enum Msg {
 impl Model {
     fn render_song_title(&self) -> Html {
         let state = self.state.clone();
-        if let Some(song) = state.song {
-            html! {
-                <div>
-                    {song.title()}
-                </div>
-            }
-        } else {
-            html! {
-                <div>
-                    {state.get_song_error.unwrap_or_else(|| "No song loaded".to_owned())}
-                </div>
-            }
+        html! {
+            <p>
+                {
+                    if let Some(song) = state.song {
+                        song.title().to_owned()
+                    } else {
+                        state.get_song_error.unwrap_or_else(|| "No song loaded".to_owned())
+                    }
+                }
+            </p>
         }
     }
 
-    fn render_input(&self) -> Html {
+    fn render_username_field(&self) -> Html {
+        html! {
+            <input ref=self.input_ref.clone() type="text" placeholder="Enter YouTube video ID"/>
+        }
+    }
+
+    fn render_load_button(&self) -> Html {
         let input_ref = self.input_ref.clone();
         html! {
-            <div>
-                <input ref=self.input_ref.clone() type="text" placeholder="Enter YouTube video ID"/>
-                <button onclick=self.link.batch_callback(move |_| {
-                    input_ref.cast::<InputElement>().map(|input| Msg::GetSong(input.value()))})>
-                    {"Load"}
-                </button>
-            </div>
+            <button onclick=self.link.batch_callback(move |_| {
+                input_ref.cast::<InputElement>().map(|input| Msg::GetSong(input.value()))})>
+                {"Load"}
+            </button>
         }
     }
 
@@ -88,9 +90,7 @@ impl Model {
         let state = self.state.clone();
         if let Some(url) = state.selected_url {
             html! {
-                <div>
-                    <audio src={url} controls=true autoplay=true/>
-                </div>
+                <audio src={url} controls=false autoplay=true/>
             }
         } else {
             html! {}
@@ -108,6 +108,7 @@ impl Component for Model {
                 song: None,
                 get_song_error: None,
                 selected_url: None,
+                is_song_loaded: false,
             },
             link,
             task: None,
@@ -134,10 +135,12 @@ impl Component for Model {
             }
             Msg::GetSongSuccess(song) => {
                 self.state.song = Some(song);
+                self.state.is_song_loaded = true;
                 true
             }
             Msg::GetSongError(err) => {
                 self.state.song = None;
+                self.state.is_song_loaded = true;
                 self.state.get_song_error = Some(err.to_string());
                 true
             }
@@ -154,14 +157,18 @@ impl Component for Model {
 
     fn view(&self) -> Html {
         html! {
-            <div>
-                {self.render_quality_selection()}
-                {self.render_input()}
-                <br/>
-                {self.render_song_title()}
-                <br/>
-                {self.render_audio()}
-            </div>
+            <section class="container">
+                <div class="row">
+                    {self.render_quality_selection()}
+                    {self.render_username_field()}
+                    {self.render_load_button()}
+                </div>
+                <div>
+                    {self.render_song_title()}
+                    <br/>
+                    {self.render_audio()}
+                </div>
+            </section>
         }
     }
 }

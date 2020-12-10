@@ -1,0 +1,3 @@
+[submodule "wasm/rollup-plugins"]
+	path = wasm/rollup-plugins
+	url = https://github.com/ohmree/plugins
