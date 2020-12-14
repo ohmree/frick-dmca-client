@@ -15,6 +15,12 @@ wee_alloc = "0.4.5"
 yew = { git = "https://github.com/yewstack/yew.git" }
 simple-eyre = "0.3.0"
 nanoserde = "0.1.21"
+bimap = "0.5.3"
+web-sys = { version = "0.3", features = ["HtmlCollection"] }
+regex = "1.4.2"
+lazy_static = "1.4.0"
+wasm-bindgen-futures = "0.4.19"
+js-sys = "0.3.46"
 
 [features]
 default = []

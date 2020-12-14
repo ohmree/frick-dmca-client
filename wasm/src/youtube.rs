@@ -1,6 +1,6 @@
+use bimap::BiMap;
 use nanoserde::DeJson;
-use simple_eyre::eyre::Result;
-use std::collections::HashMap;
+use simple_eyre::eyre::{eyre, Report, Result};
 use yew::callback::Callback;
 use yew::format::{Nothing, Text};
 use yew::services::fetch::{FetchService, FetchTask, Request, Response};
@@ -27,10 +27,26 @@ struct SongJson {
     pub adaptive_formats: Vec<AdaptiveFormatJson>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Hash, PartialEq, Eq)]
+pub struct Itag {
+    pub url: String,
+    pub mime_type: String,
+}
+
+impl Itag {
+    pub fn url(&self) -> &str {
+        &self.url
+    }
+
+    pub fn mime_type(&self) -> &str {
+        &self.mime_type
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Song {
     title: String,
-    itags: HashMap<u16, String>,
+    itags: BiMap<u16, Itag>,
 }
 
 impl Song {
@@ -53,10 +69,16 @@ impl Song {
         let song_json: SongJson = DeJson::deserialize_json(&json_str)?;
 
         let title = song_json.title;
-        let mut itags = HashMap::new();
+        let mut itags = BiMap::new();
         for format in song_json.adaptive_formats.into_iter() {
             if format.mime_type.contains("audio") {
-                itags.insert(format.itag.parse()?, format.url);
+                itags.insert(
+                    format.itag.parse()?,
+                    Itag {
+                        url: format.url,
+                        mime_type: format.mime_type,
+                    },
+                );
             }
         }
 
@@ -67,7 +89,7 @@ impl Song {
         self.title.as_str()
     }
 
-    pub fn itags(&self) -> &HashMap<u16, String> {
+    pub fn itags(&self) -> &BiMap<u16, Itag> {
         &self.itags
     }
 }

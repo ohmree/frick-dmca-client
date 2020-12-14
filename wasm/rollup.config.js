@@ -3,6 +3,7 @@ import rust from "@wasm-tool/rollup-plugin-rust";
 import html from "./rollup-plugin-html";
 import serve from "rollup-plugin-serve"
 import styles from "rollup-plugin-styles";
+import resolve from '@rollup/plugin-node-resolve';
 
 // `yarn build` -> `production` is true
 // `yarn dev` -> `production` is false
@@ -25,6 +26,7 @@ export default {
         include: ["src/**/*.rs", "Cargo.toml", "styles/*.css"]
     },
     plugins: [
+        resolve(),
         html({
             title: "FrickDMCA",
             meta: [
@@ -48,7 +50,12 @@ export default {
             shouldHash: true,
             hashAlgorithm: "sha512",
             additionalCspDirectives: {
-                "default-src": ["'self'", "https://invidious.kavin.rocks"],
+                "default-src": [
+                    "'self'",
+                    "https://invidious.kavin.rocks",
+                    "https://warp-co.rs/https://soundcloud.com",
+                    "https://a-v2.sndcdn.com/assets/*"
+                ],
                 "media-src": "https://*.googlevideo.com",
             }
         }),

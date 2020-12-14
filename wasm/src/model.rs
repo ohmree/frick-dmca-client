@@ -1,7 +1,10 @@
-use crate::youtube::{FetchResponse, Song};
+use crate::youtube::{FetchResponse, Itag, Song};
 use simple_eyre::eyre::{eyre, Report};
 use yew::prelude::*;
-use yew::services::fetch::FetchTask;
+use yew::services::{
+    fetch::FetchTask,
+    storage::{Area, StorageService},
+};
 use yew::web_sys::{HtmlInputElement as InputElement, HtmlSelectElement as SelectElement};
 
 #[derive(Clone)]
@@ -10,12 +13,14 @@ pub struct State {
     get_song_error: Option<String>,
     selected_url: Option<String>,
     is_song_loaded: bool,
+    soundcloud_client_id: Option<String>,
 }
 
 pub struct Model {
     state: State,
     link: ComponentLink<Self>,
     task: Option<FetchTask>,
+    storage: StorageService,
     input_ref: NodeRef,
     select_ref: NodeRef,
 }
@@ -69,13 +74,13 @@ impl Model {
                                 .cast::<SelectElement>().map(|select| Msg::UpdateSelectedUrl(select.value()))
                         })
                 >
-                <option hidden=true disabled=true selected=true value=""> {"Select quality"} </option>
+                <option hidden=true disabled=true selected=true value="" label="Select quality"/>
                     {
                         if let Some(song) = self.state.song.clone() {
                             song
                             .itags()
                             .iter()
-                            .map(|(itag, url)| html! { <option value={url}>{itag}</option> })
+                            .map(|(itag, Itag { url, .. })| html! { <option value={url} label={itag}/> })
                             .collect::<Html>()
                         } else {
                             html! {}
@@ -90,7 +95,7 @@ impl Model {
         let state = self.state.clone();
         if let Some(url) = state.selected_url {
             html! {
-                <audio src={url} controls=false autoplay=true/>
+                <audio controls=true autoplay=true src={url}/>
             }
         } else {
             html! {}
@@ -103,17 +108,26 @@ impl Component for Model {
     type Properties = ();
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+        let mut storage = StorageService::new(Area::Local).unwrap();
+        let _ = crate::soundcloud::fetch_client_id(&mut storage);
+        let soundcloud_client_id = if let Ok(client_id) = storage.restore("client_id") {
+            Some(client_id)
+        } else {
+            None
+        };
         Self {
             state: State {
                 song: None,
                 get_song_error: None,
                 selected_url: None,
                 is_song_loaded: false,
+                soundcloud_client_id,
             },
             link,
             task: None,
             input_ref: Default::default(),
             select_ref: Default::default(),
+            storage,
         }
     }
 
@@ -156,6 +170,7 @@ impl Component for Model {
     }
 
     fn view(&self) -> Html {
+        let state = self.state.clone();
         html! {
             <section class="container">
                 <div class="row">
