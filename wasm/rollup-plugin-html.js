@@ -86,6 +86,8 @@ const defaultTemplate = async ({ attributes, files, meta, publicPath, title, sho
     ${links}
   </head>
   <body>
+    <div id="app">
+    </div>
     ${scripts}
   </body>
 </html>`;
