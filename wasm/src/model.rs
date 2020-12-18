@@ -180,7 +180,10 @@ pub fn view(model: &Model) -> Node<Msg> {
             model.currently_playing.as_ref().map(|song| {
                 div![
                     br![],
-                    song.title(),
+                    h3![
+                        id!["song-title"],
+                        song.title()
+                    ],
                     br![],
                     IF!(model.should_render_audio =>
                         audio![
