@@ -1,6 +1,6 @@
 [package]
 name = "frick-dmca"
-version = "0.1.7"
+version = "0.2.0"
 authors = ["OhmRee <13455401+ohmree@users.noreply.github.com>"]
 edition = "2018"
 
