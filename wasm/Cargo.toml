@@ -1,6 +1,6 @@
 [package]
 name = "wasm"
-version = "0.2.1"
+version = "0.3.0"
 authors = ["OhmRee <13455401+ohmree@users.noreply.github.com>"]
 edition = "2018"
 
@@ -30,5 +30,6 @@ features = [
 ]
 
 [features]
-default = ["soundcloud"]
+default = ["soundcloud", "youtube"]
 soundcloud = []
+youtube = []

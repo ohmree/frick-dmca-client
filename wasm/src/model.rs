@@ -5,7 +5,7 @@ use crate::providers::SoundCloud;
 #[cfg(feature = "youtube")]
 use crate::providers::YouTube;
 use crate::providers::{Provider, Song};
-use log::{debug, error};
+use log::debug;
 use seed::{
     prelude::{web_sys::HtmlSelectElement, *},
     *,
@@ -40,7 +40,7 @@ impl Model {
         #[cfg(feature = "soundcloud")]
         providers.push(Rc::new(SoundCloud::new().await?));
         #[cfg(feature = "youtube")]
-        providers.push(Rc::new(YouTube::new().await?));
+        providers.push(Rc::new(YouTube::new()));
         Ok(Self {
             providers,
             song_url: String::new(),
@@ -104,13 +104,6 @@ pub fn update(msg: Msg, model: &mut Model, orders: &mut impl Orders<Msg>) {
         Msg::AudioLoaded(selected_quality) => {
             if let Some(song) = model.currently_playing.as_ref() {
                 for (is_hls, _mime_type, url) in song.urls[&selected_quality].iter() {
-                    // match set_hls_source(url.to_owned()) {
-                    //     Err(e) => error!("failed to set hls source: {:#?}", e),
-                    //     Ok(res) => {
-                    //         debug!("set_hls_source success: {:#?}", res);
-                    //         break;
-                    //     }
-                    // }
                     if let Some(audio) = model.audio_ref.get() {
                         if *is_hls {
                             if model.hls_supported {
@@ -180,10 +173,7 @@ pub fn view(model: &Model) -> Node<Msg> {
             model.currently_playing.as_ref().map(|song| {
                 div![
                     br![],
-                    h3![
-                        id!["song-title"],
-                        song.title()
-                    ],
+                    h3![id!["song-title"], song.title()],
                     br![],
                     IF!(model.should_render_audio =>
                         audio![
